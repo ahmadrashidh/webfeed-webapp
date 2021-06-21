@@ -2,22 +2,46 @@ package webfeed.model;
 
 public class Error {
 
-	private String errorMessage;
+	private String title;
+	
+	private String description;
 
 	public Error() {
 
 	}
-
-	public Error(String errorMessage) {
-		this.errorMessage = errorMessage;
+	
+	public Error(String title, String description) {
+		this.title = title;
+		this.description = description;
 	}
 
-	public void setErrorMessage(String errorMessage) {
-		this.errorMessage = errorMessage;
+	/**
+	 * @return the title
+	 */
+	public String getTitle() {
+		return title;
 	}
 
-	public String getErrorMessage() {
-		return this.errorMessage;
+	/**
+	 * @param title the title to set
+	 */
+	public void setTitle(String title) {
+		this.title = title;
 	}
+
+	/**
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * @param description the description to set
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 
 }

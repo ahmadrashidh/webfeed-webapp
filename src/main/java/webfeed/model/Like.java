@@ -4,32 +4,52 @@ import com.google.cloud.datastore.Entity;
 
 public class Like {
 	
-	private transient String postId;
+	public static final String KIND = "Like";
 	
-	private String likedBy;
+	private transient Long postId;
+	
+	private Long likedBy;
+	public static final String LIKED_BY = "likedBy";
+	
+	public static final String CREATED_DATE = "createdDate";
+	
+	public static final String IS_ACTIVE = "isActive";
+	
+	public Like(Entity entity) {
+		this.setLikedBy(entity.getLong(LIKED_BY));
+	}
 
-	public String getLikedBy() {
+	/**
+	 * @return the likedBy
+	 */
+	public Long getLikedBy() {
 		return likedBy;
 	}
 
-	public void setLikedBy(String likedBy) {
+	/**
+	 * @param likedBy the likedBy to set
+	 */
+	public void setLikedBy(Long likedBy) {
 		this.likedBy = likedBy;
 	}
 
-	public String getPostId() {
+	public Long getPostId() {
 		return postId;
 	}
 
-	public void setPostId(String postId) {
+	public void setPostId(Long postId) {
 		this.postId = postId;
 	}
 
-	public Like getLikeFromEntity(Entity entity) {
+	public Error validate() {
 		
-		this.setLikedBy(entity.getString("likedBy"));
-		return this;
+		if(this.likedBy == null ) {
+			return new Error("Invalid Liked By", "Liked by is a required field. It cannot be missing or empty");
+		}
+		
+		return null;
 	}
-	
-	
+
+
 
 }

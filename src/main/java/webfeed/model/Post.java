@@ -1,60 +1,114 @@
 package webfeed.model;
 
-import java.util.List;
-
 import com.google.cloud.datastore.Entity;
 
 public class Post {
 	
-	private String id;
+	public static final String KIND = "Post";
 	
-	private String postText;
+	private Long id;
+	public static final String ID = "id";
 	
-	private String createdOn;
+	private String text;
+	public static final String TEXT = "postText";
 	
-	private List<Like> likes;
+	private Long authorId;
+	public static final String AUTHOR_ID = "authorId";
 	
-
+	private Long createdDate;
+	public static final String CREATED_DATE = "createdDate";
+	
+	private long likesCount;
+	
+	private long commentsCount;
+	
+	public static final String IS_ACTIVE = "isActive";
+	
+	public Post() {
+		
+	}
+	
+	public Post(Entity entity) {
+		
+		this.setId( entity.getKey().getId());
+		this.setPostText(entity.getString(TEXT));
+		this.setCreatedDate(entity.getLong(CREATED_DATE));
+		this.setAuthorId(entity.getLong(AUTHOR_ID));
+	}
+	
 	public String getPostText() {
-		return postText;
+		return text;
 	}
 
 	public void setPostText(String postText) {
-		this.postText = postText;
+		this.text = postText;
 	}
 
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
-	
-	public Post getPostFromEntity(Entity entity) {
-		this.setId(entity.getKey().getId().toString());
-		this.setPostText(entity.getString("postText"));
-		this.setCreatedOn(entity.getTimestamp("createdOn").toString());
-		return this;
+
+	public long getLikesCount() {
+		return likesCount;
 	}
 
-	public String getCreatedOn() {
-		return createdOn;
+	public void setLikesCount(long likesCount) {
+		this.likesCount = likesCount;
 	}
 
-	public void setCreatedOn(String timeStamp) {
-		this.createdOn = timeStamp;
+	public long getCommentsCount() {
+		return commentsCount;
 	}
 
-	public List<Like> getLikes() {
-		return likes;
+	public void setCommentsCount(long commentsCount) {
+		this.commentsCount = commentsCount;
 	}
 
-	public void setLikes(List<Like> likes) {
-		this.likes = likes;
+	public Long getCreatedDate() {
+		return createdDate;
 	}
-	
-	
+
+	public void setCreatedDate(Long createdDate) {
+		
+		this.createdDate = createdDate;
+
+	}
+
+	/**
+	 * @return the authorId
+	 */
+	public Long getAuthorId() {
+		return authorId;
+	}
+
+	/**
+	 * @param authorId the authorId to set
+	 */
+	public void setAuthorId(Long authorId) {
+		this.authorId = authorId;
+	}
+
+	public Error validate() {
+		
+		if(this.text == null || this.text.isBlank()) {
+			return new Error("Invalid Post Text","Post text should be provided");		
+		}
+		
+		if(this.authorId == null) {
+			return new Error("Invalid Author Id","AuthorId should be provided");
+		}
+		
+		return null;
+	}
+
+
+
+
+
 
 }

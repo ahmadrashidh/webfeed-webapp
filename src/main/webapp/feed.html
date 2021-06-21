@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<title>Webfeed</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link
+	href="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+	rel="stylesheet">
+<link
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
+	rel="stylesheet">
+<!--Local CSS -->
+<link href="./css/base.css" rel="stylesheet">
+
+
+<!--BootStrap Links-->
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="./js/base.js"></script>
+
+</head>
+
+<body>
+
+	<div class="container bootdey">
+		<div class="col-md-12 bootstrap snippets">
+			<div class="panel" id="post-input-section">
+				<div class="panel-body" id="post-input-body">
+					<!-- Post Input -->
+					<textarea class="form-control" rows="2" id="post-input"
+						placeholder="What are you thinking?"></textarea>
+					<div style="color: red;" id="invalid-text"></div>
+					<div class="mar-top clearfix">
+						<!-- Post Button -->
+						<button class="btn btn-sm btn-primary pull-right" id="share-btn"
+							type="submit">
+							<i class="fa fa-pencil fa-fw"></i> Share
+						</button>
+						<a class="btn btn-trans btn-icon fa fa-video-camera add-tooltip"></a>
+						<a class="btn btn-trans btn-icon fa fa-camera add-tooltip"></a> <a
+							class="btn btn-trans btn-icon fa fa-file add-tooltip"></a>
+					</div>
+				</div>
+			</div>
+			<div class="panel" id="feed">
+				<!-- Feed here -->
+			</div>
+		</div>
+	</div>
+
+	<template id="post-section">
+		<div class="panel-body" id="post-section-body">
+			<div class="media-block" id="post-block">
+				<a class="media-left"><img class="img-circle img-sm"
+					alt="Profile Picture"
+					src="https://bootdey.com/img/Content/avatar/avatar1.png"></a>
+				<div class="media-body" id="post-body">
+					<div class="mar-btm">
+						<a class="btn-link text-semibold media-heading box-inline">Lisa
+							D.</a>
+						<p class="text-muted text-sm" id="post-time"></p>
+					</div>
+					<p id="post-text"></p>
+					<div class="pad-ver">
+						<div class="btn-group">
+							<a class="btn btn-sm btn-default" id="like-btn"><i
+								class="fa fa-thumbs-up"></i></a>
+						</div>
+						<a class="btn btn-sm btn-default btn-hover-primary"
+							id="comment-show-btn">Comment</a>
+					</div>
+					<hr>
+				</div>
+			</div>
+		</div>
+	</template>
+
+	<template id="comment-section">
+		<div id="comment-section-body">
+			<div class="media-block" id="comment-block">
+				<a class="media-left"><img class="img-circle img-sm"
+					alt="Profile Picture"
+					src="https://bootdey.com/img/Content/avatar/avatar2.png"></a>
+				<div class="media-body" id="comment-body">
+					<div class="mar-btm">
+						<a class="btn-link text-semibold media-heading box-inline"></a>
+					</div>
+					<!-- Comment Input -->
+					<div id="comment-input">
+						<textarea class="form-control" rows="1" id="comment-input"
+							placeholder="Add Comment"></textarea>
+						<div class="mar-top clearfix">
+							<!-- Comment Button -->
+							<button class="btn btn-sm btn-primary pull-right"
+								id="comment-btn" type="submit">
+								<i class="fa fa-pencil fa-fw"></i>Add
+							</button>
+						</div>
+						<hr>
+					</div>
+				</div>
+			</div>
+		</div>
+	</template>
+
+	<template id="comment-section-alternate">
+		<div id="comment-section-body">
+			<div class="media-block" id="comment-block">
+				<a class="media-left"><img class="img-circle img-sm"
+					alt="Profile Picture"
+					src="https://bootdey.com/img/Content/avatar/avatar2.png"></a>
+				<div class="media-body" id="comment-body">
+					<div class="mar-btm">
+						<a class="btn-link text-semibold media-heading box-inline"></a>
+					</div>
+					<!-- Comment Input -->
+					<div id="comment-input">
+						<textarea class="form-control" rows="1" id="comment-input"
+							placeholder="Add Comment"></textarea>
+						<div class="mar-top clearfix">
+							<!-- Comment Button -->
+							<button class="btn btn-sm btn-primary pull-right"
+								id="comment-btn" type="submit">
+								<i class="fa fa-pencil fa-fw"></i>Add
+							</button>
+						</div>
+						<hr>
+					</div>
+				</div>
+			</div>
+		</div>
+	</template>
+
+
+	<template id="comment-content">
+		<div class="media-block" id="comment-content-block">
+			<a class="media-left"><img class="img-circle img-sm"
+				alt="Profile Picture"
+				src="https://bootdey.com/img/Content/avatar/avatar2.png"></a>
+			<div class="media-body" id="comment-content-body">
+				<div class="mar-btm">
+					<a class="btn-link text-semibold media-heading box-inline">Danny</a>
+					<p class="text-muted text-sm" id="comment-time"></p>
+				</div>
+				<p id="comment-text"></p>
+				<div class="pad-ver">
+					<a class="btn btn-sm btn-default btn-hover-primary"
+						id="comment-show-btn">Comment</a>
+				</div>
+				<hr>
+			</div>
+		</div>
+	</template>
+
+
+
+</body>
+
+</html>

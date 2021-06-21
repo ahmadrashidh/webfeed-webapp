@@ -2,11 +2,16 @@ indexes:
 - kind: Post
   properties:
   - name: isActive
-  - name: createdOn
+  - name: createdDate
     direction: desc 
     
 - kind: Comment
   properties:
   - name: parentPath
-  - name: createdOn
+  - name: createdDate
     direction: desc
+    
+- kind: User
+  properties:
+  - name: apiToken
+  - name: sessionId

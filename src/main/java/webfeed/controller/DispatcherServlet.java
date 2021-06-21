@@ -11,15 +11,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/*")
+import webfeed.model.Error;
+import webfeed.utility.Response;
+
+@WebServlet("/api/*")
 public class DispatcherServlet extends HttpServlet {
 
-	private static final String ALL_POSTS = "getPosts";
-	private static final String POSTS_BY_ID = "getPostsById";
-	private static final String ALL_LIKES = "getLikes";
-	private static final String LIKES_BY_ID = "getLikesById";
-	private static final String ALL_COMMENTS = "getComments";
-	private static final String COMMENTS_BY_ID = "getCommentsById";
+	static final String ALL_USERS = "getUsers";
+	static final String USERS_BY_ID = "getUsersById";
+	static final String ALL_POSTS = "getPosts";
+	static final String POSTS_BY_ID = "getPostsById";
+	static final String ALL_LIKES = "getLikes";
+	static final String LIKES_BY_ID = "getLikesById";
+	static final String ALL_COMMENTS = "getComments";
+	static final String COMMENTS_BY_ID = "getCommentsById";
 
 	/*
 	 * 
@@ -29,73 +34,93 @@ public class DispatcherServlet extends HttpServlet {
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-		String action = getAction(request);
-		RequestDispatcher dispatcher;
+		Error error = new Error("Unknown Endpoint", "We don't serve this endpoint");
+		Response responseObj = new Response.ResponseBuilder(501, Response.JSON).setError(error).build();
 
-		System.out.println("action:" + action);
-		request.setAttribute("Action", action);
-	
-		switch (action) {
-		case ALL_POSTS:
-		case POSTS_BY_ID:
-			dispatcher = request.getRequestDispatcher("/posts");
-			System.out.println("Dispatching to posts");
-			dispatcher.forward(request, response);
-			break;
-		case ALL_LIKES:
-			dispatcher = request.getRequestDispatcher("/likes");
-			System.out.println("Dispatching to likes");
-			dispatcher.forward(request, response);
-			break;
-		case ALL_COMMENTS:
-			dispatcher = request.getRequestDispatcher("/comments");
-			System.out.println("Dispatching to comments");
-			dispatcher.forward(request, response);
-			break;
-		case LIKES_BY_ID:
-		case COMMENTS_BY_ID:
-		default:
-			response.setStatus(404);
+		try {
+
+			String action = getAction(request);
+
+			request.setAttribute("Action", action);
+
+			switch (action) {
+			case USERS_BY_ID:
+				request.getRequestDispatcher("/users").forward(request, response);
+				break;
+			case ALL_POSTS:
+			case POSTS_BY_ID:
+				request.getRequestDispatcher("/posts").forward(request, response);
+				break;
+			case ALL_LIKES:
+				request.getRequestDispatcher("/likes").forward(request, response);
+				break;
+			case ALL_COMMENTS:
+				request.getRequestDispatcher("/comments").forward(request, response);
+				break;
+			case LIKES_BY_ID:
+			case COMMENTS_BY_ID:
+			default:
+
+			}
+
+		} catch (Exception e) {
+
+			error = new Error("Something went wrong", "Some unknown error occurred during the execution of your query");
+			responseObj = new Response.ResponseBuilder(500, Response.JSON).setError(error).build();
+
+		} finally {
+
+			response.setContentType(responseObj.getContentType());
+			response.setStatus(responseObj.getStatusCode());
+			response.getWriter().print(responseObj.getJson());
 		}
-
 	}
-	
+
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		
-		String action = getAction(request);
-		RequestDispatcher dispatcher;
 
-		System.out.println("action:" + action);
-		request.setAttribute("Action", action);
+		Error error = new Error("Unknown Endpoint", "We don't serve this endpoint");
+		Response responseObj = new Response.ResponseBuilder(501, Response.JSON).setError(error).build();
 
-		switch (action) {
-		case ALL_POSTS:
-		case POSTS_BY_ID:
-			dispatcher = request.getRequestDispatcher("/posts");
-			System.out.println("Dispatching to posts");
-			dispatcher.forward(request, response);
-			break;
-		case ALL_LIKES:
-			dispatcher = request.getRequestDispatcher("/likes");
-			System.out.println("Dispatching to likes");
-			dispatcher.forward(request, response);
-			break;
-		case ALL_COMMENTS:
-			dispatcher = request.getRequestDispatcher("/comments");
-			System.out.println("Dispatching to comments");
-			dispatcher.forward(request, response);
-			break;
-		case LIKES_BY_ID:
-		case COMMENTS_BY_ID:
-		default:
-			response.getWriter().write("Unserviced");
+		try {
+
+			String action = getAction(request);
+
+			System.out.println("action:" + action);
+			request.setAttribute("Action", action);
+
+			switch (action) {
+			case ALL_POSTS:
+				request.getRequestDispatcher("/posts").forward(request, response);
+				break;
+			case ALL_LIKES:
+				request.getRequestDispatcher("/likes").forward(request, response);
+				break;
+			case ALL_COMMENTS:
+				request.getRequestDispatcher("/comments").forward(request, response);
+				break;
+			default:
+
+			}
+
+		} catch (Exception e) {
+
+			error = new Error("Something went wrong", "Some unknown error occurred during the execution of your query");
+			responseObj = new Response.ResponseBuilder(501, Response.JSON).setError(error).build();
+
+		} finally {
+
+			response.setContentType(responseObj.getContentType());
+			response.setStatus(responseObj.getStatusCode());
+			response.getWriter().print(responseObj.getJson());
+
 		}
 	}
-	
+
 	@Override
-	public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		
+	public void doDelete(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
+
 		String action = getAction(request);
 		RequestDispatcher dispatcher;
 
@@ -125,7 +150,6 @@ public class DispatcherServlet extends HttpServlet {
 			response.getWriter().write("Unserviced");
 		}
 	}
-
 
 	private String getAction(HttpServletRequest request) {
 
@@ -152,6 +176,7 @@ public class DispatcherServlet extends HttpServlet {
 		case ALL_COMMENTS:
 			return params.size() > 1 && params.get(1) != null ? "ById" : "";
 		case ALL_POSTS:
+		case ALL_USERS:
 			return params.size() > 0 && params.get(0) != null ? "ById" : "";
 		default:
 			return "";
@@ -188,7 +213,9 @@ public class DispatcherServlet extends HttpServlet {
 				return ALL_COMMENTS;
 			else
 				return ALL_POSTS;
-			
+
+		} else if (isThisPath(path, 1, "users")) {
+			return ALL_USERS;
 		} else {
 			return "respondUnserviced";
 		}

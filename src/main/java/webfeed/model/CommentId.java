@@ -2,15 +2,14 @@ package webfeed.model;
 
 public class CommentId {
 	
-	private String commentId;
+	private Long id;
 
-	public String getCommentId() {
-		return commentId;
+	public Long getId() {
+		return id;
 	}
 
-	public void setCommentId(String commentId) {
-		this.commentId = commentId;
+	public void setId(Long long1) {
+		this.id = long1;
 	}
-	
 
 }

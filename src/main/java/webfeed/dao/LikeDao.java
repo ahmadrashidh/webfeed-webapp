@@ -16,6 +16,7 @@ import com.google.cloud.datastore.Query;
 import com.google.cloud.datastore.StructuredQuery.PropertyFilter;
 
 import webfeed.model.Like;
+import webfeed.model.Post;
 
 public class LikeDao implements Dao<Like> {
 	
@@ -35,19 +36,19 @@ public class LikeDao implements Dao<Like> {
 		
 	}
 	
-	public List<Like> getAllByPost(String postId) {
+	public List<Like> getAllByPost(Long postId) {
 		List<Like> allLikes = new ArrayList<>();
 		Query<Entity> query = Query.newEntityQueryBuilder()
-			    .setKind("Like")
-			    .setFilter(PropertyFilter.hasAncestor(
-			        datastore.newKeyFactory().setKind("Post").newKey(postId)))
+			    .setKind(Like.KIND)
+			    .setFilter(PropertyFilter.hasAncestor(datastore.newKeyFactory()
+			    .setKind(Post.KIND)
+			    .newKey(postId)))
 			    .build();
 		
 		Iterator<Entity> likes = datastore.run(query);
 		
 		while(likes.hasNext()) {
-			Like like = new Like();
-			like.getLikeFromEntity(likes.next());
+			Like like = new Like(likes.next());
 			allLikes.add(like);
 		}
 		
@@ -57,12 +58,14 @@ public class LikeDao implements Dao<Like> {
 	@Override
 	public void create(Like like) {
 	
-		KeyFactory keyFactory = datastore.newKeyFactory().addAncestors(PathElement.of("Post", like.getPostId())).setKind("Like");
+		KeyFactory keyFactory = datastore.newKeyFactory()
+				.addAncestors(PathElement.of(Post.KIND, like.getPostId()))
+				.setKind(Like.KIND);
 		Key likeKey = datastore.allocateId(keyFactory.newKey());
 		Entity likeEntity = Entity.newBuilder(likeKey)
-				.set("likedBy", like.getLikedBy())
-				.set("isActive", true)
-				.set("createdOn", Timestamp.now())
+				.set(Like.LIKED_BY, like.getLikedBy())
+				.set(Like.IS_ACTIVE, true)
+				.set(Like.CREATED_DATE, Timestamp.now())
 				.build();
 		datastore.put(likeEntity);
 	}

@@ -9,6 +9,8 @@ public class Response {
 	private int contentLength;
 
 	private String contentType;
+	
+	public static final String JSON = "application/json";
 
 	private String responseJson;
 
@@ -60,9 +62,9 @@ public class Response {
 			return this;
 		}
 
-		public ResponseBuilder setError(String errorMessage) {
+		public ResponseBuilder setError(Error error) {
 			this.isError = true;
-			this.error = new Error(errorMessage);
+			this.error = error;
 			return this;
 		}
 

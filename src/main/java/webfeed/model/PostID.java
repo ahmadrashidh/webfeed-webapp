@@ -2,14 +2,18 @@ package webfeed.model;
 
 public class PostID {
 	
-	private String postId;
+	private Long Id;
 
-	public String getPostId() {
-		return postId;
+	public Long getId() {
+		return Id;
 	}
 
-	public void setPostId(String postId) {
-		this.postId = postId;
+	public void setId(Long id) {
+		Id = id;
 	}
+
+
+
+
 
 }

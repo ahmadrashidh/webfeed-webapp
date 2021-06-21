@@ -1,6 +1,7 @@
 package webfeed.model;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,26 +11,39 @@ public class CommentList {
 
 	private String text;
 
-	private String author;
-	
-	private String id;
-	
-	private transient String parent;
+	private Long authorId;
 
-	public String getParent() {
-		return parent;
-	}
+	private Long id;
 
-	public void setParent(String parent) {
-		this.parent = parent;
-	}
+	private transient Long parentId;
+	
+	private long createdDate;
 
 	List<CommentList> comments;
 
 	public CommentList() {
-		comments = new ArrayList<>();
+
 	}
+
+	public CommentList(Entity entity) {
+		comments = new ArrayList<>();
+		this.setText(entity.getString(Comment.TEXT));
+		this.setAuthorId(entity.getLong(Comment.COMMENTED_BY));
+		this.setParentId(entity.getLong(Comment.PARENT_ID));
+		this.setCreatedDate(entity.getLong(Comment.CREATED_DATE));
+		this.setId(entity.getKey().getId());
+	}
+
 	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+
 	public void addComment(CommentList comment) {
 		comments.add(comment);
 	}
@@ -42,21 +56,7 @@ public class CommentList {
 		this.text = text;
 	}
 
-	public String getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(String author) {
-		this.author = author;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
+	
 
 	public List<CommentList> getComments() {
 		return comments;
@@ -65,29 +65,69 @@ public class CommentList {
 	public void setComments(List<CommentList> comments) {
 		this.comments = comments;
 	}
-	
-	public CommentList getCommentFromEntity(Entity commentEntity) {
-		this.setText(commentEntity.getString("text"));
-		this.setAuthor(commentEntity.getString("commentedBy"));
-		this.setParent(commentEntity.getString("parent"));
-		this.setId(commentEntity.getKey().getId().toString());
-		return this;
-	}
-	
-	public static List<CommentList> getCommentThread(Map<String,CommentList> allComments, String postId) {
+
+	public static List<CommentList> generateCommentThread(List<CommentList> allComments, Long parentId) {
+		
+		Map<String,CommentList> commentsForAccess = new LinkedHashMap<>();
+		
+		allComments.forEach(comment -> {
+			commentsForAccess.put(comment.getId().toString(), comment);
+		});
 		
 		List<CommentList> commentThread = new ArrayList<>();
-		for(CommentList comment : allComments.values()) {
-			if(comment.getParent() != null && !comment.getParent().equals(postId)) {
-				allComments.get(comment.getParent()).addComment(comment);
+		for (CommentList comment : commentsForAccess.values()) {
+			if (comment.getParentId() != null && !comment.getParentId().equals(parentId)) {
+				commentsForAccess.get(comment.getParentId().toString()).addComment(comment);
 			} else {
 				commentThread.add(comment);
 			}
 		}
-		
+
 		return commentThread;
-		
-		
+
 	}
+
+	/**
+	 * @return the authorId
+	 */
+	public Long getAuthorId() {
+		return authorId;
+	}
+
+	/**
+	 * @param authorId the authorId to set
+	 */
+	public void setAuthorId(Long authorId) {
+		this.authorId = authorId;
+	}
+
+	/**
+	 * @return the parentId
+	 */
+	public Long getParentId() {
+		return parentId;
+	}
+
+	/**
+	 * @param parentId the parentId to set
+	 */
+	public void setParentId(Long parentId) {
+		this.parentId = parentId;
+	}
+
+	/**
+	 * @return the createdDate
+	 */
+	public long getCreatedDate() {
+		return createdDate;
+	}
+
+	/**
+	 * @param createdDate the createdDate to set
+	 */
+	public void setCreatedDate(long createdDate) {
+		this.createdDate = createdDate;
+	}
+
 
 }
