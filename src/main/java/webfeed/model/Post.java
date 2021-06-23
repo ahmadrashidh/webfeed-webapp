@@ -96,11 +96,11 @@ public class Post {
 	public Error validate() {
 		
 		if(this.text == null || this.text.isBlank()) {
-			return new Error("Invalid Post Text","Post text should be provided");		
+			return new Error("Invalid Post Text","Post text is required field. It cannot be missing or empty");		
 		}
 		
 		if(this.authorId == null) {
-			return new Error("Invalid Author Id","AuthorId should be provided");
+			return new Error("Invalid Author Id","AuthorId is required field. It cannot be missing or empty");
 		}
 		
 		return null;

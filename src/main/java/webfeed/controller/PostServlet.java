@@ -27,8 +27,6 @@ public class PostServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final String JSON = "application/json";
-
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
@@ -87,7 +85,7 @@ public class PostServlet extends HttpServlet {
 			Json<Post> json = new Json<>(Post.class);
 			String responsePayload = json.convertToPayload(post);
 
-			responseObj = new Response.ResponseBuilder(HttpServletResponse.SC_OK, JSON).setJson(responsePayload).build();
+			responseObj = new Response.ResponseBuilder(HttpServletResponse.SC_OK, Response.JSON).setJson(responsePayload).build();
 
 		} catch (EntityNotFoundException e) {
 
@@ -110,7 +108,7 @@ public class PostServlet extends HttpServlet {
 		Json<List<Post>> json = new Json<>(type.getType());
 		String responsePayload = json.convertToPayload(allPosts);
 
-		return new Response.ResponseBuilder(HttpServletResponse.SC_OK, JSON).setJson(responsePayload).build();
+		return new Response.ResponseBuilder(HttpServletResponse.SC_OK, Response.JSON).setJson(responsePayload).build();
 
 	}
 

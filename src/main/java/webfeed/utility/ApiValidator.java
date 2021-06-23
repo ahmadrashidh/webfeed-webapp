@@ -5,7 +5,7 @@ import webfeed.exception.EntityNotFoundException;
 
 public class ApiValidator {
 
-	public static boolean isValidApi(String apiToken) {
+	public boolean isValidApi(String apiToken) {
 
 		try {
 			
@@ -14,7 +14,9 @@ public class ApiValidator {
 			return isSessionActive(sessionId);
 
 		} catch (EntityNotFoundException e) {
+			
 			return false;
+		
 		}
 
 	}

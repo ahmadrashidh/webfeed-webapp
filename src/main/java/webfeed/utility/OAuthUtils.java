@@ -14,50 +14,47 @@ import com.google.api.services.oauth2.Oauth2;
 import com.google.api.services.oauth2.model.Userinfo;
 
 public class OAuthUtils {
-
-  /* Sends requests to Google's OAuth 2.0 server. */   
-  private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();  
-  
-  public static GoogleAuthorizationCodeFlow newFlow() throws IOException {
-	  
 	
-    final String oauthClientId = "524736529113-h3j31enbpv6v52mt9j3601611n1bt8ml.apps.googleusercontent.com";
-    final String oauthClientSecret = AccessSecretVersion.accessSecretVersion();
+	private OAuthUtils() {
+		
+	}
 
-    List<String> scopes = Arrays.asList(
-        "https://www.googleapis.com/auth/userinfo.profile",
-        "https://www.googleapis.com/auth/userinfo.email");
-    
-    return new GoogleAuthorizationCodeFlow.Builder(
-            HTTP_TRANSPORT, JacksonFactory.getDefaultInstance(), oauthClientId, oauthClientSecret, scopes)
-        .setDataStoreFactory(MemoryDataStoreFactory.getDefaultInstance())
-        .build();
-  }
-  
-  public static boolean isUserLoggedIn(String sessionId) {
-    try{
-      Credential credential = newFlow().loadCredential(sessionId);
-      
-	  return credential != null;
-    } catch(IOException e){
-      // Error getting login status
-      return false;
-    }
-  }
+	/* Sends requests to Google's OAuth 2.0 server. */
+	private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
 
-  public static Userinfo getUserInfo(String sessionId) throws IOException {
-    String appName = System.getenv("APP_NAME");
-    Credential credential = newFlow().loadCredential(sessionId);
-    System.out.println("AccessToken:" + credential.getAccessToken() );
-    System.out.println("RefreshToken:" + credential.getRefreshToken() );
-    System.out.println("Expiry:" + credential.getExpiresInSeconds());
-    Oauth2 oauth2Client =
-        new Oauth2.Builder(HTTP_TRANSPORT, JacksonFactory.getDefaultInstance(), credential)
-            .setApplicationName(appName)
-            .build();
+	public static GoogleAuthorizationCodeFlow newFlow() throws IOException {
 
-    
-    Userinfo userInfo = oauth2Client.userinfo().get().execute();
-    return userInfo;
-  }
+		final String oauthClientId = "524736529113-h3j31enbpv6v52mt9j3601611n1bt8ml.apps.googleusercontent.com";
+		final String oauthClientSecret = AccessSecretVersion.accessSecretVersion();
+
+		List<String> scopes = Arrays.asList("https://www.googleapis.com/auth/userinfo.profile",
+				"https://www.googleapis.com/auth/userinfo.email");
+
+		return new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JacksonFactory.getDefaultInstance(),
+				oauthClientId, oauthClientSecret, scopes)
+						.setDataStoreFactory(MemoryDataStoreFactory.getDefaultInstance()).build();
+	}
+
+	public static boolean isUserLoggedIn(String sessionId) {
+		try {
+
+			Credential credential = newFlow().loadCredential(sessionId);
+			return credential != null;
+
+		} catch (IOException e) {
+
+			return false;
+		}
+	}
+
+	public static Userinfo getUserInfo(String sessionId) throws IOException {
+		String appName = System.getenv("APP_NAME");
+		Credential credential = newFlow().loadCredential(sessionId);
+
+		Oauth2 oauth2Client = new Oauth2.Builder(HTTP_TRANSPORT, JacksonFactory.getDefaultInstance(), credential)
+				.setApplicationName(appName).build();
+
+		Userinfo userInfo = oauth2Client.userinfo().get().execute();
+		return userInfo;
+	}
 }

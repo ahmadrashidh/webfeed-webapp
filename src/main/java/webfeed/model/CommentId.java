@@ -8,8 +8,8 @@ public class CommentId {
 		return id;
 	}
 
-	public void setId(Long long1) {
-		this.id = long1;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 }

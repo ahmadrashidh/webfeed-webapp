@@ -34,7 +34,7 @@ public class DispatcherServlet extends HttpServlet {
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-		Error error = new Error("Unknown Endpoint", "We don't serve this endpoint");
+		Error error = new Error("Unknown Endpoint", "We do not serve this endpoint");
 		Response responseObj = new Response.ResponseBuilder(501, Response.JSON).setError(error).build();
 
 		try {
@@ -70,6 +70,7 @@ public class DispatcherServlet extends HttpServlet {
 
 		} finally {
 
+			
 			response.setContentType(responseObj.getContentType());
 			response.setStatus(responseObj.getStatusCode());
 			response.getWriter().print(responseObj.getJson());

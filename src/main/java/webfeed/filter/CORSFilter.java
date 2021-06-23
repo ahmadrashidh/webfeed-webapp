@@ -11,7 +11,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebFilter(asyncSupported = true, urlPatterns = { "/api/*",  "/*"  })
+@WebFilter(asyncSupported = true, urlPatterns = { "/*"  })
 public class CORSFilter implements Filter {
 
 	@Override

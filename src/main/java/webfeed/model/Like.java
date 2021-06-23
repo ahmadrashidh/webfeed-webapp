@@ -18,6 +18,10 @@ public class Like {
 	public Like(Entity entity) {
 		this.setLikedBy(entity.getLong(LIKED_BY));
 	}
+	
+	public Like() {
+		
+	}
 
 	/**
 	 * @return the likedBy

@@ -91,12 +91,13 @@ public class Comment {
 	}
 
 	public Error validate() {
+		
 		if(this.text == null || this.text.isBlank()) {
-			return new Error("Invalid Post Text","Post text is required field. Post Text cannot be missing or empty");		
+			return new Error("Invalid Comment Text","Comment text is required field. It cannot be missing or empty");		
 		}
 		
 		if(this.commentedBy == null) {
-			return new Error("Invalid Author Id","Author ID is required field. Author ID cannoot be missing or empty");
+			return new Error("Invalid Commented By Id","Commented By is required field. It cannot be missing or empty");
 		}
 		
 		return null;

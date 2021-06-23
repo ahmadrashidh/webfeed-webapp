@@ -16,7 +16,7 @@ import webfeed.utility.ApiValidator;
 import webfeed.utility.Response;
 
 @WebFilter(asyncSupported = true, urlPatterns = { "/api/*" })
-public class BFilter implements Filter {
+public class VerifyAPIFilter implements Filter {
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -42,7 +42,8 @@ public class BFilter implements Filter {
 	private Response processApiValidity(HttpServletRequest httpRequest) {
 
 		String apiToken = httpRequest.getHeader("API-Token");
-		String accept = httpRequest.getHeader("Accept");
+		ApiValidator apiValidator = new ApiValidator();
+
 
 		if (apiToken == null) {
 
@@ -50,17 +51,13 @@ public class BFilter implements Filter {
 			return new Response.ResponseBuilder(HttpServletResponse.SC_UNAUTHORIZED, Response.JSON).setError(error)
 					.build();
 
-		} else if (!ApiValidator.isValidApi(apiToken)) {
+		} else if (!apiValidator.isValidApi(apiToken)) {
 
 			Error error = new Error("Invalid API Token", "API Token is invalid");
 			return new Response.ResponseBuilder(HttpServletResponse.SC_UNAUTHORIZED, Response.JSON).setError(error)
 					.build();
 
-		} else if (isAcceptHeaderValid(accept)) {
-			Error error = new Error("Invalid Accept Header", "Accept Header is not served in this endpoint");
-			return new Response.ResponseBuilder(HttpServletResponse.SC_BAD_REQUEST, Response.JSON).setError(error)
-					.build();
-		} else {
+		}  else {
 			
 			return null;
 
@@ -70,8 +67,5 @@ public class BFilter implements Filter {
 		
 	}
 	
-	private boolean isAcceptHeaderValid(String header) {
-		return header != null && header.equals("application/json");
-	}
 
 }
