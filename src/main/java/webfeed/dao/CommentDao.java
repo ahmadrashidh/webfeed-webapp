@@ -99,7 +99,7 @@ public class CommentDao implements Dao<Comment> {
 		Query<Entity> query = Query.newEntityQueryBuilder()
 				.setKind(Comment.KIND)
 				.setFilter(PropertyFilter.eq(Comment.PARENT_PATH, postId.toString()))
-				.setOrderBy(OrderBy.desc(Comment.CREATED_DATE))
+				.setOrderBy(OrderBy.asc(Comment.CREATED_DATE))
 				.build();
 
 		QueryResults<Entity> comments = datastore.run(query);
@@ -120,7 +120,7 @@ public class CommentDao implements Dao<Comment> {
 		Query<Entity> query = Query.newEntityQueryBuilder()
 				.setKind(Comment.KIND)
 				.setFilter(PropertyFilter.eq(Comment.PARENT_PATH,commentId.toString()))
-				.setOrderBy(OrderBy.desc(Comment.CREATED_DATE))
+				.setOrderBy(OrderBy.asc(Comment.CREATED_DATE))
 				.build();
 
 		QueryResults<Entity> comments = datastore.run(query);

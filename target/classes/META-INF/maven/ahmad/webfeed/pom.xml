@@ -25,6 +25,7 @@
 			<artifactId>javax.servlet-api</artifactId>
 			<version>4.0.1</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>jstl</groupId>
 			<artifactId>jstl</artifactId>
@@ -51,6 +52,7 @@
 			<artifactId>jetty-server</artifactId>
 			<version>${jetty.version}</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
 			<artifactId>jetty-annotations</artifactId>
@@ -77,11 +79,13 @@
 			<artifactId>gax</artifactId>
 			<version>1.65.1</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>com.google.api</groupId>
 			<artifactId>gax-grpc</artifactId>
 			<version>1.65.1</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>io.grpc</groupId>
 			<artifactId>grpc-core</artifactId>
@@ -93,11 +97,13 @@
 			<artifactId>grpc-netty-shaded</artifactId>
 			<version>1.38.0</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>io.grpc</groupId>
 			<artifactId>grpc-protobuf</artifactId>
 			<version>1.38.0</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>io.grpc</groupId>
 			<artifactId>grpc-stub</artifactId>
@@ -111,6 +117,21 @@
 			<version>1.10.19</version>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4</artifactId>
+			<version>1.6.4</version>
+			<scope>test</scope>
+		</dependency>
+	
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-mockito</artifactId>
+			<version>1.6.4</version>
+			<scope>test</scope>
+		</dependency>
+		
 
 
 	</dependencies>

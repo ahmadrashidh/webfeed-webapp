@@ -16,6 +16,9 @@ public class LogoutServlet extends HttpServlet {
 
 @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	
     request.getSession().invalidate();
+    response.getWriter().write("You're Logged out");
+    
   }
 }

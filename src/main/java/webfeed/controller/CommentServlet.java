@@ -150,7 +150,7 @@ public class CommentServlet extends HttpServlet {
 
 		} catch (Exception e) {
 
-			error = new Error("Something went wrong", "Some unknown error occurred during the execution of your query");
+			error = new Error("Something went wrong in Comment Servlet", e.getMessage());
 			responseObj = new Response.ResponseBuilder(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, Response.JSON)
 					.setError(error).build();
 
@@ -173,7 +173,7 @@ public class CommentServlet extends HttpServlet {
 			CommentDao commentDao = new CommentDao();
 			Json<Comment> reqJson = new Json<>(Comment.class);
 			String jsonPayload = reqJson.readJson(requestBuffer);
-
+			System.out.println("JSON:" + jsonPayload);
 			Comment comment = reqJson.convertToModel(jsonPayload);
 			comment.setPostId(postId);
 
@@ -193,7 +193,7 @@ public class CommentServlet extends HttpServlet {
 			Json<CommentId> resJson = new Json<>(CommentId.class);
 			String resPayload = resJson.convertToPayload(commentId);
 
-			responseObj = new Response.ResponseBuilder(HttpServletResponse.SC_OK, Response.JSON).setJson(resPayload)
+			responseObj = new Response.ResponseBuilder(HttpServletResponse.SC_CREATED, Response.JSON).setJson(resPayload)
 					.build();
 
 		} catch (InvalidInputException e) {

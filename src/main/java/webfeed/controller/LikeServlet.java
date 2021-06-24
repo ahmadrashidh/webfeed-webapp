@@ -137,7 +137,7 @@ public class LikeServlet extends HttpServlet {
 		likeDao.create(like);
 
 
-		responseObj = new Response.ResponseBuilder(HttpServletResponse.SC_OK, Response.JSON).build();
+		responseObj = new Response.ResponseBuilder(HttpServletResponse.SC_CREATED, Response.JSON).build();
 		
 		} catch (InvalidInputException e) {
 

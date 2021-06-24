@@ -99,6 +99,7 @@ public class PostServlet extends HttpServlet {
 
 	private Response getAllPosts() {
 
+		
 		PostDao postDao = new PostDao();
 		List<Post> allPosts = postDao.getAll();
 
@@ -161,7 +162,7 @@ public class PostServlet extends HttpServlet {
 			postId.setId(post.getId());
 
 			String responsePayload = resJson.convertToPayload(postId);
-			responseObj = new Response.ResponseBuilder(HttpServletResponse.SC_OK, Response.JSON).setJson(responsePayload).build();
+			responseObj = new Response.ResponseBuilder(HttpServletResponse.SC_CREATED,Response.JSON).setJson(responsePayload).build();
 
 		} catch (InvalidInputException e) {
 			

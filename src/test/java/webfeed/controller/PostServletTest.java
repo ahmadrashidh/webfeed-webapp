@@ -1,6 +1,5 @@
 package webfeed.controller;
 
-import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,29 +13,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.powermock.api.mockito.PowerMockito;
 
 import webfeed.dao.PostDao;
 import webfeed.model.Post;
 
 class PostServletTest {
 
-	@Mock
-	HttpServletRequest request;
+	HttpServletRequest request = PowerMockito.mock(HttpServletRequest.class);
 	
-	@Mock
-	HttpServletResponse response;
+	HttpServletResponse response= PowerMockito.mock(HttpServletResponse.class);
 	
+	PostDao postDao = PowerMockito.mock(PostDao.class);
 	
-	@Mock
-	PostDao postDao;
-	
-	@BeforeEach
-	protected void setUp() throws Exception {
-		MockitoAnnotations.initMocks(this);
-	}
-
 	@Test
 	void doGet_getAllPosts_returnResponse() throws IOException, ServletException {
 		
@@ -50,11 +39,11 @@ class PostServletTest {
 		StringWriter sw = new StringWriter();
 		PrintWriter pw = new PrintWriter(sw);
 		
-		when(request.getAttribute("Action")).thenReturn("getPosts");
-		when(postDao.getAll()).thenReturn(allPosts);
-		when(response.getWriter()).thenReturn(pw);
+		PowerMockito.when(request.getAttribute("Action")).thenReturn("getPosts");
+		PowerMockito.when(postDao.getAll()).thenReturn(allPosts);
+		PowerMockito.when(response.getWriter()).thenReturn(pw);
 		
-	
+		
 		new PostServlet().doGet(request, response);
 		
 		String result = sw.getBuffer().toString().trim();

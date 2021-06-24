@@ -9,7 +9,7 @@ indexes:
   properties:
   - name: parentPath
   - name: createdDate
-    direction: desc
+    direction: asc
     
 - kind: User
   properties:

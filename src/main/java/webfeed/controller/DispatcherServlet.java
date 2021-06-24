@@ -106,7 +106,7 @@ public class DispatcherServlet extends HttpServlet {
 
 		} catch (Exception e) {
 
-			error = new Error("Something went wrong", "Some unknown error occurred during the execution of your query");
+			error = new Error("Something went wrong in Dispatcher", e.getMessage());
 			responseObj = new Response.ResponseBuilder(501, Response.JSON).setError(error).build();
 
 		} finally {
